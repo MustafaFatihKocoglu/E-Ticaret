@@ -1,0 +1,52 @@
+﻿:root {
+    --bg1: #0f2027;
+    --bg2: #203a43;
+    --bg3: #2c5364;
+    --glass: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.15);
+    --text: #eaf2ff;
+    --muted: rgba(234,242,255,0.75);
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    color: var(--text);
+}
+
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+
+.navbar-glass {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+a, a:hover {
+    color: inherit;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    border: 0;
+    color: #001018;
+    font-weight: 600;
+    border-radius: 16px;
+}
+
+.btn-warm {
+    background: linear-gradient(135deg, #ff9966, #ff5e62);
+    border: 0;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 16px;
+}

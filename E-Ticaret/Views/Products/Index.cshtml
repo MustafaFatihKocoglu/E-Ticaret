@@ -1,0 +1,66 @@
+﻿@using E_Ticaret.Models
+@model List<Product>
+
+@{
+    ViewData["Title"] = "Ürünler | Keşfet";
+}
+
+<style>
+    .product-card {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.10);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+    .muted {
+        color: rgba(234,242,255,0.75);
+    }
+
+    .badge-soft {
+        background: rgba(79,172,254,0.18);
+        color: rgba(234,242,255,0.90);
+        border: 1px solid rgba(79,172,254,0.35);
+    }
+</style>
+
+<div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 mb-4">
+    <div>
+        <h1 class="fw-bold mb-1">Ürünleri Keşfet</h1>
+        <div class="muted">En popüler ürünler burada — detay için ürüne tıkla.</div>
+    </div>
+    <span class="badge badge-soft px-3 py-2">Toplam: @Model.Count ürün</span>
+</div>
+
+<div class="row g-4">
+    @foreach (var p in Model)
+    {
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div class="card product-card h-100 rounded-4 overflow-hidden">
+                <img src="@p.ImageUrl" class="img-fluid" alt="@p.Name" />
+                <div class="card-body">
+                    <h5 class="text-white fw-semibold mb-1">@p.Name</h5>
+                    <p class="muted small mb-3">@p.Description</p>
+
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="fw-bold fs-5 text-white">@p.Price ₺</div>
+                        <span class="badge badge-soft">Stok: @p.Stock</span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm flex-fill" href="/Products/Details/@p.Id">Detay</a>
+                        <a class="btn btn-gradient btn-sm flex-fill" href="/Cart/Add/@p.Id">Sepete Ekle</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="mt-5 text-center muted small">
+    © 2026 | ASP.NET Core MVC E-Ticaret
+</div>

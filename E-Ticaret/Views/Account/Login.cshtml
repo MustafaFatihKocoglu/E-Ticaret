@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Giriş Yap";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4">
+        <div class="glass-card p-4">
+            <h3 class="fw-bold text-center mb-4">🔐 Giriş Yap</h3>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger text-center">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <form method="post" action="/Account/Login">
+                <div class="mb-3">
+                    <label class="form-label">E-posta</label>
+                    <input type="email" name="email" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Şifre</label>
+                    <input type="password" name="password" class="form-control" required />
+                </div>
+
+                <button type="submit" class="btn btn-gradient w-100">
+                    Giriş Yap
+                </button>
+            </form>
+
+            <div class="text-center mt-3 small text-light opacity-75">
+                Demo: <b>admin@site.com</b> / <b>123456</b>
+            </div>
+
+            <div class="text-center mt-3">
+                <a class="btn btn-sm btn-outline-light w-100" href="/Account/Register">
+                    Kayıt Ol
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

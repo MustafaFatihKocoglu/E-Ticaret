@@ -1,0 +1,129 @@
+﻿@using E_Ticaret.Models
+@model List<CartItem>
+
+@{
+    ViewData["Title"] = "Sepet";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">🛒 Sepetim</h2>
+    <a href="/Products" class="btn btn-warm btn-sm">Ürünlere Dön</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="glass-card p-4 text-center">
+        Sepetiniz şu an boş.
+    </div>
+}
+else
+{
+    <div class="glass-card p-4">
+        @foreach (var item in Model)
+        {
+            <div data-cart-row
+                 class="d-flex justify-content-between align-items-center mb-3 p-3"
+                 style="background: rgba(255, 255, 255, 0.06); border-radius: 14px;">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="@item.ImageUrl"
+                         style="width:70px;height:52px;object-fit:cover;border-radius:10px;" />
+                    <div>
+                        <div class="fw-semibold">@item.Name</div>
+                        <div class="text-light" style="opacity:0.75;">@item.Price ₺</div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button type="button"
+                            class="btn btn-sm btn-outline-light qty-minus"
+                            data-id="@item.ProductId">
+                        −
+                    </button>
+
+                    <span class="badge qty-value"
+                          style="background: linear-gradient(135deg,#4facfe,#00f2fe); color:#001018; padding:8px 14px; border-radius:18px;">
+                        @item.Quantity
+                    </span>
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-light qty-plus"
+                            data-id="@item.ProductId">
+                        +
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger remove-from-cart"
+                            data-id="@item.ProductId">
+                        Sil
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="mt-4 text-end">
+        <h4 class="mb-0">
+            Toplam:
+            <span id="cartTotal">@Model.Sum(x => x.Price * x.Quantity) ₺</span>
+        </h4>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('click', async (e) => {
+
+            const plus = e.target.closest('.qty-plus');
+            if (plus) {
+                const id = plus.dataset.id;
+
+                const res = await fetch(`/Cart/IncreaseJson/${id}`, { method: 'POST' });
+                if (!res.ok) return;
+
+                const data = await res.json();
+                if (data.ok) {
+                    plus.parentElement.querySelector('.qty-value').textContent = data.qty;
+                    document.getElementById('cartTotal').textContent = data.total + ' ₺';
+                }
+                return;
+            }
+
+            const minus = e.target.closest('.qty-minus');
+            if (minus) {
+                const id = minus.dataset.id;
+
+                const res = await fetch(`/Cart/DecreaseJson/${id}`, { method: 'POST' });
+                if (!res.ok) return;
+
+                const data = await res.json();
+                if (data.ok) {
+                    if (data.qty <= 0) {
+                        const row = minus.closest('[data-cart-row]');
+                        if (row) row.remove();
+                    } else {
+                        minus.parentElement.querySelector('.qty-value').textContent = data.qty;
+                    }
+                    document.getElementById('cartTotal').textContent = data.total + ' ₺';
+                }
+                return;
+            }
+
+            const remove = e.target.closest('.remove-from-cart');
+            if (remove) {
+                const id = remove.dataset.id;
+
+                const res = await fetch(`/Cart/RemoveJson/${id}`, { method: 'POST' });
+                if (!res.ok) return;
+
+                const data = await res.json();
+                if (data.ok) {
+                    const row = remove.closest('[data-cart-row]');
+                    if (row) row.remove();
+                    else location.reload();
+
+                    location.reload();
+                }
+            }
+        });
+    </script>
+}

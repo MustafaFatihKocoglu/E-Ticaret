@@ -1,0 +1,45 @@
+﻿@using E_Ticaret.Models
+@model Product
+
+@{
+    ViewData["Title"] = Model.Name + " Detay";
+}
+
+<div class="row g-4 align-items-stretch">
+    <div class="col-lg-6">
+        <div class="glass-card p-3 h-100">
+            <img src="@Model.ImageUrl"
+                 class="w-100"
+                 style="height: 360px; object-fit: cover; border-radius: 16px;" />
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="glass-card p-4 h-100 d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h2 class="fw-bold mb-1">@Model.Name</h2>
+                    <div class="text-light" style="opacity:.75">@Model.Description</div>
+                </div>
+
+                <span class="badge"
+                      style="background: linear-gradient(135deg,#4facfe,#00f2fe);
+                             color:#001018; padding:10px 14px; border-radius:18px;">
+                    @Model.Price ₺
+                </span>
+            </div>
+
+            <hr style="border-color: rgba(255,255,255,0.15);" />
+
+            <div class="d-flex gap-2 flex-wrap mb-3">
+                <span class="badge bg-light text-dark">Stok: @Model.Stock</span>
+                <span class="badge bg-light text-dark">Ürün ID: @Model.Id</span>
+            </div>
+
+            <div class="mt-auto d-flex gap-2">
+                <a class="btn btn-gradient flex-fill" href="/Cart/Add/@Model.Id">🛒 Sepete Ekle</a>
+                <a class="btn btn-warm flex-fill" href="/Products">← Ürünlere Dön</a>
+            </div>
+        </div>
+    </div>
+</div>
